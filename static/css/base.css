@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Slab:wght@100;200;300;400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,900&family=RocknRoll+One&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+:root{
+    --color1: #ffffff;
+    --color2: #000000;
+    --color3: #f5f5f5;
+
+    --color4: #db514d;
+    --color5: #015fa2;
+    --color6: #004e66;
+    --color7: #e97f02;
+    --color8: #3b8686;
+    --color9: #6a60a9;
+    --color10:#CB3631;
+    --color11:#535e66;
+    --color12:#343e46; 
+    --color13:#bb2929;
+    --color14:#0075FF;
+    --color15:#ffa41c;
+    --color16:#333333;
+
+    --fuente1: 'Urbanist', sans-serif;
+    --fuente2: 'Roboto', sans-serif;
+    --fuente3: 'Roboto Slab', serif;
+    --fuente4: 'Bungee', cursive;
+    --fuente5: 'Poppins', sans-serif;
+    --fuente6: 'Raleway', sans-serif;
+    --fuente7: 'RocknRoll One', sans-serif;
+}
+*,
+*::after,
+*::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-size: 16px;
+    font-family:var(--fuente1);
+    font-weight: 300;
+}
+body{
+    background-color: var(--color1);
+}
+.main{
+    width: 90%;
+    max-width: 62.5rem;
+    margin: 3.125rem auto;
+}
+
+@media only screen and (max-width:578px) {
+    html {font-size: 12px;}
+}
+@media only screen and (min-width:578px) and (max-width:768px) {html {font-size: 13px;}}
+@media only screen and (min-width:768px) and (max-width:992px) {html {font-size: 14px;}}

@@ -1,0 +1,30 @@
+
+.btn{
+    width: 8rem;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    height: 2.75rem;
+    cursor: pointer;
+    border: none;
+    border-radius: .25rem;
+}
+
+.btn__icon {width: auto;height: auto;display: flex;}
+.icon{width: 1.5rem;}
+.btn__text{font-size: 1rem;color: var(--color1);}
+
+.btn__form{
+    width: 100%;
+    justify-content: center;
+    height: 3.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.btn--blue{background-color: var(--color14);}
+.btn--shadow{box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, .35);}
+.btn--accept{background-color: var(--color5);}
+.btn--cancel{background-color: var(--color10);}

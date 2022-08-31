@@ -1,0 +1,38 @@
+{% extends "layouts/base.html" %}
+
+{% block body %}
+    <header class="header">
+        <h1 class="header__title">Flask Simple CRUD</h1>
+    </header>
+    <hr class="break">
+
+    <main class="main">
+        <section id="app">
+            <button type="button" class="btn btn--blue btn--shadow"  id="add-new">
+                <div class="btn__icon">
+                    <img class="icon" src="/icons/add.svg" alt="add">
+                </div>
+                <span class="btn__text">Add New</span>
+            </button>
+
+            <section class="form-section form-section__display">
+                <section class="form-section__overlay">
+                    <form class="form-section__form" id="mainForm" autocomplete="off" method="POST">
+                        <input class="form__input" type="text" name="fullname" placeholder="Full Name" autofocus>
+                        <input class="form__input" type="text" name="username" placeholder="Username">
+                        <fieldset class="form__buttons">
+                            <button class="btn btn__form btn--accept" type="submit">
+                                <span class="btn__text">Accept</span>
+                            </button>
+                            <button class="btn btn__form btn--cancel" type="button">
+                                <span class="btn__text">Cancel</span>
+                            </button>
+                        </fieldset>
+                    </form>
+                </section>
+            </section>
+
+            <section class="table-container"></section>
+        </section>
+    </main>
+{% endblock %}
