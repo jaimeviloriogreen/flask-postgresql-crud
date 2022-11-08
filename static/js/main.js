@@ -3,9 +3,9 @@ const formSection = document.querySelector(".form-section");
 const mainForm = document.querySelector("#mainForm");
 const btnCancel = document.querySelector(".btn--cancel");
 const btnAccept = document.querySelector(".btn--accept");
-const tableDeleteBtn = document.querySelector(".table__edit-btn");
-const tableEditBtn = document.querySelector(".table__delete-btn");
-// Table
+const btnTextUpdate = document.querySelector(".btn__text--update");
+
+//? Table
 const tableContainer = document.querySelector(".table-container");
 const table = document.createElement("table");
 const thead = document.createElement("thead");
@@ -20,8 +20,7 @@ thr.className = "table__head-row";
 heading.map( h => thr.insertAdjacentHTML("beforeend",  `<th class="table__heading">${h}</th>`));
 
 
-
-// AddEventListener
+//? AddEventListener
 btnAddNew.addEventListener("click", addNew);
 if( btnCancel ) btnCancel.addEventListener("click", cancelAddNew);
 if( btnAccept ) mainForm.addEventListener("submit", addUserData)
@@ -29,29 +28,40 @@ tableContainer.addEventListener("click", tableActions);
 
 getUsers();
 
+//? Add Form
 function addNew(e){
     e.preventDefault();
     formSection.style.display = "grid";
+    btnTextUpdate.textContent = "Insert";
+    mainForm.fullname.value = "";
+    mainForm.username.value = "";
+    mainForm.fullname.focus();
+}
+//? Update form
+function updateOne(e, fullname,username){
+    e.preventDefault();
+    formSection.style.display = "grid";
+    btnTextUpdate.textContent = "Update";
     mainForm.fullname.focus();
 }
 
 function cancelAddNew(){
     formSection.style.display = "none";
 }
-//? Agrega a un usuario 
+//? Add a user
 async function addUserData(e){
     e.preventDefault();
 
-
     const formData = new FormData(mainForm);
     
-     const data = await fetch("/add", {
+    const data = await fetch("/add", {
         'method':"POST",
         'Content-Type': 'application/json;charset=utf-8',
         'body':formData
     });
 
     const {insertedRow} = await data.json();
+
     if( insertedRow > 0  ) getUsers();
     this.reset();
     mainForm.fullname.focus();
@@ -59,7 +69,7 @@ async function addUserData(e){
 
 
 
-//? Captura todos los usuarios y los muestra por pantalla
+//? Get user and display
 async function getUsers(){
     const {data} = await (await fetch("/getUsers", {
         'method':"POST",
@@ -76,8 +86,11 @@ async function getUsers(){
     if( data.length <= 0  ) tableContainer.innerHTML = "";
 }
 
+//? Update & Delete
 async function tableActions(e){
     e.preventDefault();
+    
+    //? Delete
     if(e.target.classList.contains("table__delete-btn") || e.target.classList.contains("table__icon-delete")){
         const rowId = e.target.parentElement.parentElement.dataset.action || e.target.parentElement.parentElement.parentElement.dataset.action;
         
@@ -94,9 +107,31 @@ async function tableActions(e){
 
         if(id > 0) getUsers();
     }
+    //? Update
+    if(e.target.classList.contains("table__edit-btn") || e.target.classList.contains("table__icon-edit")){
+        // Show updated modal
+        updateOne(e);
+
+        // id to update
+        const id = e.target.parentElement.parentElement.dataset.action || e.target.parentElement.parentElement.parentElement.dataset.action;
+
+        const formData = new FormData();
+        formData.append('id', id)
+
+        const data = await fetch("/getUser", {
+            'method':"POST",
+            'Content-Type': 'application/json;charset=utf-8',
+            'body':formData
+        });
+        const {data:{fullname, username}} = await data.json()
+         
+        mainForm.fullname.value = fullname;
+        mainForm.username.value = username;
+    }
+
    
 }
-
+//? Render table
 function renderTable(data = []){
     thead.appendChild(thr);
     tbody.className = "table__tbody";

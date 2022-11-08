@@ -16,11 +16,22 @@ def getUsers():
         db = Connect()
         conn = db.getConnect()
         results = ModelUser.getUsers(conn)
+        
         return jsonify({"data": results})
     else:
         return redirect( url_for('home') )
 
-    
+@app.route("/getUser", methods=["POST", "GET"])
+def getUser():
+    if request.method == "POST":
+        id = request.form['id']
+        db = Connect()
+        conn = db.getConnect()
+        results = ModelUser.getUser(conn, id)
+        return jsonify({"data": results})
+    else:
+        return redirect( url_for('home') )
+   
     
 @app.route("/add", methods=["POST", "GET"])
 def addUser():

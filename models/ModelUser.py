@@ -19,7 +19,21 @@ class ModelUser:
                 conn.close()
             if cursor is not None:
                 cursor.close()
-                
+    @classmethod
+    def getUser(self, conn, id):
+        try:
+            cursor = conn.cursor(cursor_factory=extras.RealDictCursor)
+            cursor.execute("SELECT fullname, username FROM users WHERE id = %s", (id, ))
+            results = cursor.fetchone()
+            return results
+        except Exception as error:
+             print(f"Error: {error}")
+        finally:
+            if conn is not None:
+                conn.close()
+            if cursor is not None:
+                cursor.close()
+                            
     @classmethod
     def deleteUser(self, conn, id):
         try:
