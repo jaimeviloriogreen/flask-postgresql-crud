@@ -5,6 +5,8 @@ const btnCancel = document.querySelector(".btn--cancel");
 const btnAccept = document.querySelector(".btn--accept");
 const btnTextUpdate = document.querySelector(".btn__text--update");
 
+let id = null;
+
 //? Table
 const tableContainer = document.querySelector(".table-container");
 const table = document.createElement("table");
@@ -23,7 +25,6 @@ heading.map( h => thr.insertAdjacentHTML("beforeend",  `<th class="table__headin
 //? AddEventListener
 btnAddNew.addEventListener("click", addNew);
 if( btnCancel ) btnCancel.addEventListener("click", cancelAddNew);
-if( btnAccept ) mainForm.addEventListener("submit", addUserData)
 tableContainer.addEventListener("click", tableActions);
 
 getUsers();
@@ -36,6 +37,7 @@ function addNew(e){
     mainForm.fullname.value = "";
     mainForm.username.value = "";
     mainForm.fullname.focus();
+    if( btnAccept ) mainForm.addEventListener("submit", addUserData)
 }
 //? Update form
 function updateOne(e, fullname,username){
@@ -67,6 +69,25 @@ async function addUserData(e){
     mainForm.fullname.focus();
 }
 
+//? Update a user
+async function updateUserData(e){
+    e.preventDefault();
+
+    const formData = new FormData(mainForm);
+    formData.append('id', id);
+    const data = await fetch("/update", {
+        'method':"POST",
+        'Content-Type': 'application/json;charset=utf-8',
+        'body':formData
+    });
+
+    const {insertedRow} = await data.json();
+
+    if( insertedRow > 0  ) getUsers();
+    
+    this.reset();
+    mainForm.fullname.focus();
+}
 
 
 //? Get user and display
@@ -113,7 +134,7 @@ async function tableActions(e){
         updateOne(e);
 
         // id to update
-        const id = e.target.parentElement.parentElement.dataset.action || e.target.parentElement.parentElement.parentElement.dataset.action;
+        id = e.target.parentElement.parentElement.dataset.action || e.target.parentElement.parentElement.parentElement.dataset.action;
 
         const formData = new FormData();
         formData.append('id', id)
@@ -127,6 +148,8 @@ async function tableActions(e){
          
         mainForm.fullname.value = fullname;
         mainForm.username.value = username;
+
+        if( btnAccept ) mainForm.addEventListener("submit", updateUserData);
     }
 
    

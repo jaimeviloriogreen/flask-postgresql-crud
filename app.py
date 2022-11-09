@@ -42,7 +42,22 @@ def addUser():
         
         result = ModelUser.addUser(conn,user)
         
-        return jsonify({"message": "okey", "insertedRow":result})
+        return jsonify({"insertedRow":result})
+    else:
+        return redirect( url_for('home') )
+    
+@app.route("/update", methods=["POST", "GET"])
+def updateUser():
+    if request.method == "POST":
+        id = request.form['id']
+        
+        user = User(request.form['username'], request.form['fullname'])
+        db = Connect()
+        conn = db.getConnect()
+        result = ModelUser.updateUser(conn,user, id)
+        print(result)
+        
+        return jsonify({"insertedRow":result})
     else:
         return redirect( url_for('home') )
 

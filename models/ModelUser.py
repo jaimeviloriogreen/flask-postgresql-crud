@@ -52,11 +52,11 @@ class ModelUser:
                 conn.close()
             if cursor is not None:
                 cursor.close()
+    
                 
     @classmethod
     def addUser(self, conn, user):
         try:
-            print(user)
             cursor = conn.cursor(cursor_factory=extras.RealDictCursor)
             sql = """
             INSERT INTO 
@@ -65,6 +65,33 @@ class ModelUser:
                 (%s, %s, %s)
             """
             value = (user.fullname, user.username, user.password)
+
+            cursor.execute(sql, value)
+            result = cursor.rowcount
+            conn.commit()
+            
+            return result
+        except Exception as error:
+             print(f"Error: {error}")
+        finally:
+            if conn is not None:
+                conn.close()
+            if cursor is not None:
+                cursor.close()
+                
+    @classmethod
+    def updateUser(self, conn, user, id):
+        try:
+            
+            cursor = conn.cursor(cursor_factory=extras.RealDictCursor)
+            sql = """
+            UPDATE users SET 
+                fullname = %s,
+                username = %s,
+                password = %s
+            WHERE id = %s;
+            """
+            value = (user.fullname, user.username, user.password, id)
 
             cursor.execute(sql, value)
             result = cursor.rowcount
